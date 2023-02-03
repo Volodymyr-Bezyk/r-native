@@ -40,8 +40,8 @@ export default function RegistrationScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={() => console.log("lalala")}>
+      <View style={styles.container}>
         <ImageBackground
           resizeMode="cover"
           source={require("../../assets/images/BG.jpg")}
@@ -142,8 +142,8 @@ export default function RegistrationScreen() {
             )}
           </View>
         </ImageBackground>
-      </TouchableWithoutFeedback>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
