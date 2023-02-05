@@ -12,23 +12,21 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
 import { credentialFields } from "../constants/focusFieldsnames";
 
-export default function RegistrationScreen() {
-  const [name, setName] = useState("");
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeField, setActiveField] = useState(null);
-  const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [passwordIsHidden, setPasswordIsHidden] = useState(true);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-      setKeyboardIsVisible(true);
+      setKeyboardVisible(true);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardIsVisible(false);
+      setKeyboardVisible(false);
     });
 
     return () => {
@@ -37,15 +35,15 @@ export default function RegistrationScreen() {
     };
   }, []);
 
-  const handleRegister = (e) => {
-    console.log({ name, email, password });
-    setName("");
+  const handleSignUp = (e) => {
+    console.log({ email, password });
+
     setEmail("");
     setPassword("");
   };
 
-  const handleToLogin = (e) => {
-    console.log(`Redirect to loginScreen`);
+  const handleToRegister = (e) => {
+    console.log(`Redirect to RegisterScreen`);
   };
 
   return (
@@ -59,41 +57,16 @@ export default function RegistrationScreen() {
           <View
             style={{
               ...styles.form,
-              paddingBottom: keyboardIsVisible
+              paddingBottom: keyboardVisible
                 ? Dimensions.get("window").height * 0.039
-                : Dimensions.get("window").height * 0.076,
+                : Dimensions.get("window").height * 0.158,
             }}
           >
-            <View style={styles.avatar}>
-              <TouchableOpacity style={styles.avatarBtn} activeOpacity={0.8}>
-                <Icon name="plus" size={16} color="#FF6C00" />
-              </TouchableOpacity>
-            </View>
-
             <View style={{ marginTop: "auto" }}>
-              <Text style={styles.title}>Регистрация</Text>
+              <Text style={styles.title}>Войти</Text>
               <KeyboardAvoidingView
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
               >
-                <View style={styles.inputWrap}>
-                  <TextInput
-                    onFocus={() => setActiveField(credentialFields.name)}
-                    onBlur={() => setActiveField(null)}
-                    onChangeText={setName}
-                    value={name}
-                    style={{
-                      ...styles.input,
-                      borderColor:
-                        activeField === credentialFields.name
-                          ? "#FF6C00"
-                          : "#E8E8E8",
-                    }}
-                    placeholder="Логин"
-                    placeholderTextColor={"#BDBDBD"}
-                    inputMode={"text"}
-                  ></TextInput>
-                </View>
-
                 <View style={styles.inputWrap}>
                   <TextInput
                     onFocus={() => setActiveField(credentialFields.email)}
@@ -117,7 +90,7 @@ export default function RegistrationScreen() {
                 <View
                   style={{
                     ...styles.inputPasswordWrap,
-                    marginBottom: keyboardIsVisible
+                    marginBottom: keyboardVisible
                       ? 0
                       : Dimensions.get("window").height * 0.053,
                   }}
@@ -150,22 +123,22 @@ export default function RegistrationScreen() {
               </KeyboardAvoidingView>
             </View>
 
-            {!keyboardIsVisible && (
+            {!keyboardVisible && (
               <View>
                 <TouchableOpacity
-                  onPress={handleRegister}
+                  onPress={handleSignUp}
                   style={styles.regBtn}
                   activeOpacity={0.8}
                 >
-                  <Text style={styles.regBtnText}>Зарегистрироваться</Text>
+                  <Text style={styles.regBtnText}>Войти</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={handleToLogin}
+                  onPress={handleToRegister}
                   style={styles.loginBtn}
                   activeOpacity={0.8}
                 >
                   <Text style={styles.loginBtnText}>
-                    Уже есть аккаунт? Войти
+                    Нет аккаунта? Зарегистрироваться
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -185,12 +158,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   form: {
-    position: "relative",
     backgroundColor: "#FFFFFF",
     marginTop: "auto",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingTop: Dimensions.get("window").height * 0.113,
+    paddingTop: Dimensions.get("window").height * 0.039,
     paddingHorizontal: 16,
   },
   title: {
@@ -261,39 +233,5 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     fontWeight: "400",
     color: "#1B4371",
-  },
-  avatar: {
-    position: "absolute",
-    width: Dimensions.get("window").height * 0.148,
-    height: Dimensions.get("window").height * 0.148,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-    top: 0,
-    left: 0,
-    transform: [
-      {
-        translateX:
-          Dimensions.get("window").width / 2 -
-          Dimensions.get("window").height * 0.074,
-      },
-      { translateY: -Dimensions.get("window").height * 0.074 },
-    ],
-  },
-  avatarBtn: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    transform: [
-      { translateX: Dimensions.get("window").height * 0.016 },
-      { translateY: -Dimensions.get("window").height * 0.016 },
-    ],
-    justifyContent: "center",
-    alignItems: "center",
-    width: Dimensions.get("window").height * 0.031,
-    height: Dimensions.get("window").height * 0.031,
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "#FF6C00",
-    backgroundColor: "#FFFFFF",
   },
 });

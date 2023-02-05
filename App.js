@@ -1,36 +1,31 @@
-// import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
-  Text,
   View,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import * as Font from "expo-font";
-
-// const loadFonts = async () => {
-//   await Font.loadAsync({
-//     "Roboto-Regulat": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
-//     "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
-//   });
-// };
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       {/* <StatusBar style="auto" /> */}
-//     </View>
-//   );
-// }
+import { useFonts } from "expo-font";
 
 import RegistrationScreen from "./src/screens/RegistrationScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Roboto-Regular":
+      "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+    "Roboto-Medium":
+      "https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap",
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.wrap}>
         <RegistrationScreen></RegistrationScreen>
+        {/* <LoginScreen></LoginScreen> */}
       </View>
     </TouchableWithoutFeedback>
   );
