@@ -12,10 +12,10 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import Icon from "react-native-vector-icons/AntDesign";
-import { credentialFields } from "../constants/focusFieldsnames";
+import { AntDesign } from "@expo/vector-icons";
+import credentialFields from "~/constants";
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,18 +42,18 @@ export default function RegistrationScreen() {
     setName("");
     setEmail("");
     setPassword("");
+    navigation.navigate("Home", { screen: "Settings", params: {} });
   };
 
-  const handleToLogin = (e) => {
-    console.log(`Redirect to loginScreen`);
-  };
+  const handleToLogin = (e) =>
+    navigation.navigate("Login", { screen: "Settings", params: {} });
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
           resizeMode="cover"
-          source={require("../../assets/images/BG.jpg")}
+          source={require("~/../assets/images/BG.jpg")}
           style={styles.bg}
         >
           <View
@@ -66,7 +66,7 @@ export default function RegistrationScreen() {
           >
             <View style={styles.avatar}>
               <TouchableOpacity style={styles.avatarBtn} activeOpacity={0.8}>
-                <Icon name="plus" size={16} color="#FF6C00" />
+                <AntDesign name="plus" size={16} color="#FF6C00" />
               </TouchableOpacity>
             </View>
 

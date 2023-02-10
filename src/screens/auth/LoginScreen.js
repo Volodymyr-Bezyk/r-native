@@ -12,9 +12,9 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { credentialFields } from "../constants/focusFieldsnames";
+import credentialFields from "~/constants";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeField, setActiveField] = useState(null);
@@ -40,18 +40,18 @@ export default function LoginScreen() {
 
     setEmail("");
     setPassword("");
+    navigation.navigate("Home", { screen: "Settings", params: {} });
   };
 
-  const handleToRegister = (e) => {
-    console.log(`Redirect to RegisterScreen`);
-  };
+  const handleToRegister = (e) =>
+    navigation.navigate("Registration", { screen: "Settings", params: {} });
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
           resizeMode="cover"
-          source={require("../../assets/images/BG.jpg")}
+          source={require("~/../assets/images/BG.jpg")}
           style={styles.bg}
         >
           <View
