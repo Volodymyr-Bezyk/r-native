@@ -11,8 +11,9 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  Image,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import credentialFields from "~/constants";
 
 export default function RegistrationScreen({ navigation }) {
@@ -42,11 +43,11 @@ export default function RegistrationScreen({ navigation }) {
     setName("");
     setEmail("");
     setPassword("");
-    navigation.navigate("Home", { screen: "Settings", params: {} });
+    navigation.navigate("Home", { screen: "Registration", params: {} });
   };
 
   const handleToLogin = (e) =>
-    navigation.navigate("Login", { screen: "Settings", params: {} });
+    navigation.navigate("Login", { screen: "Registration", params: {} });
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -64,9 +65,15 @@ export default function RegistrationScreen({ navigation }) {
                 : Dimensions.get("window").height * 0.076,
             }}
           >
-            <View style={styles.avatar}>
+            <View style={styles.avatarWrap}>
+              <Image
+                style={styles.avatar}
+                source={{
+                  uri: "https://www.kindpng.com/picc/m/137-1370686_anime-avatar-png-transparent-avatar-gaming-logo-png.png",
+                }}
+              />
               <TouchableOpacity style={styles.avatarBtn} activeOpacity={0.8}>
-                <AntDesign name="plus" size={16} color="#FF6C00" />
+                <Feather name="plus" size={16} color="#FF6C00" />
               </TouchableOpacity>
             </View>
 
@@ -262,12 +269,10 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#1B4371",
   },
-  avatar: {
+  avatarWrap: {
+    width: 120,
+    height: 120,
     position: "absolute",
-    width: Dimensions.get("window").height * 0.148,
-    height: Dimensions.get("window").height * 0.148,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
     top: 0,
     left: 0,
     transform: [
@@ -278,6 +283,11 @@ const styles = StyleSheet.create({
       },
       { translateY: -Dimensions.get("window").height * 0.074 },
     ],
+  },
+  avatar: {
+    flex: 1,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 16,
   },
   avatarBtn: {
     position: "absolute",

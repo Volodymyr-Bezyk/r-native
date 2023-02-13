@@ -1,81 +1,49 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import ScreenHeader from "~/components/ScreenHeader";
+import TabBar from "~/components/TabBar";
+import { BottomTab } from "~/utils";
+import { PostsScreen, CreatePostsScreen, ProfileScreen } from "~/screens/main";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
-import { Ionicons } from "@expo/vector-icons";
-import { BottomTabsNavigator } from "~/utils";
-import CommentsScreen from "./CommentsScreen";
-import CreatePublicationScreen from "./CreatePublicationScreen";
+export default function HomeScreen({ navigation, route }) {
+  const routeName = getFocusedRouteNameFromRoute(route);
+  // console.log("navigation in HomeRouter", navigation);
+  // console.log("route", route.name);
+  // console.log("routeName", routeName);
 
-function Settings() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
-
-function Profile() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
-
-export default function HomeScreen() {
-  return (
-    <View style={styles.homePageWrap}>
-      <Text>HOME</Text>
-
-      <BottomTabsNavigator.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === "CreatePublication") {
-              iconName = focused
-                ? "ios-information-circle"
-                : "ios-information-circle-outline";
-            } else if (route.name === "Comments") {
-              iconName = focused ? "ios-list-box" : "ios-list";
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: "tomato",
-          inactiveTintColor: "gray",
+    <BottomTab.Navigator
+      initialRouteName="Posts"
+      tabBar={(props) => <TabBar {...props} routeName={routeName} />}
+    >
+      <BottomTab.Screen
+        name="Posts"
+        component={PostsScreen}
+        options={{
+          header: () => <ScreenHeader title="Публикации" />,
         }}
-      >
-        <BottomTabsNavigator.Screen
-          name="CreatePublication"
-          component={CreatePublicationScreen}
-        />
-        <BottomTabsNavigator.Screen
-          name="Comments"
-          component={CommentsScreen}
-        />
-      </BottomTabsNavigator.Navigator>
-    </View>
+      />
+
+      <BottomTab.Screen
+        name="Create"
+        component={CreatePostsScreen}
+        options={({ navigation, route }) => ({
+          header: (props) => (
+            <ScreenHeader
+              title="Создать публикацию"
+              navigation={navigation}
+              route={route}
+              name="Create"
+              {...props}
+            />
+          ),
+        })}
+      />
+
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
+    </BottomTab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  homePageWrap: {},
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

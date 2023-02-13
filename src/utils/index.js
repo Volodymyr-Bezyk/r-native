@@ -1,2 +1,3 @@
-export { default as MainStack } from "./createMainStackNavigator";
-export { default as BottomTabsNavigator } from "./createBottomTabNavigator";
+export { default as AuthStack } from "./AuthStackNavigator";
+export { default as BottomTab } from "./BottomTabNavigator";
+export { default as CreateScreenBottomTab } from "./CreateScreenBottomTabNavigator";

@@ -40,11 +40,11 @@ export default function LoginScreen({ navigation }) {
 
     setEmail("");
     setPassword("");
-    navigation.navigate("Home", { screen: "Settings", params: {} });
+    navigation.navigate("Home", { screen: "Login", params: {} });
   };
 
   const handleToRegister = (e) =>
-    navigation.navigate("Registration", { screen: "Settings", params: {} });
+    navigation.navigate("Registration", { screen: "Login", params: {} });
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
