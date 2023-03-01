@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
-import { View, TouchableOpacity, StyleSheet, Keyboard } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Keyboard,
+  TextInput,
+  Text,
+} from "react-native";
+import { Feather, AntDesign } from "@expo/vector-icons";
 
 export default function tabBarButtons(routeName, navigation) {
   const mainRoute =
@@ -126,6 +133,20 @@ export default function tabBarButtons(routeName, navigation) {
       </View>
     );
   }
+
+  if (routeName === "Comments") {
+    return (
+      <View style={styles.commentsContainer}>
+        <TextInput
+          style={styles.commentsInput}
+          placeholder="Комментировать..."
+        ></TextInput>
+        <TouchableOpacity style={styles.commentsBtn} activeOpacity={0.7}>
+          <AntDesign name="arrowup" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -156,5 +177,36 @@ const styles = StyleSheet.create({
     alignItems: "center",
 
     borderRadius: 20,
+  },
+  commentsContainer: {
+    height: 82,
+    padding: 16,
+    backgroundColor: "#FFFFFF",
+    position: "relative",
+  },
+  commentsInput: {
+    marginTop: "auto",
+    height: 50,
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#E8E8E8",
+    backgroundColor: "#F6F6F6",
+    borderRadius: 100,
+    paddingLeft: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingRight: 58,
+  },
+  commentsBtn: {
+    position: "absolute",
+    width: 34,
+    height: 34,
+    top: 24,
+    right: 32,
+    backgroundColor: "#FF6C00",
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    border: 0,
   },
 });

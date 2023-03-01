@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function PostItemProfile({
   location,
@@ -7,6 +7,7 @@ export default function PostItemProfile({
   photo,
   comments,
   likes,
+  navigation,
 }) {
   return (
     <View style={styles.container}>
@@ -14,13 +15,22 @@ export default function PostItemProfile({
       <Text style={styles.textName}>{name}</Text>
       <View style={styles.locationWrap}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Feather name="message-circle" size={24} color="#FF6C00" />
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("Comments", {})}
+          >
+            <Feather name="message-circle" size={24} color="#FF6C00" />
+          </TouchableOpacity>
+
           <Text style={styles.textLikes}>{comments}</Text>
         </View>
         <View
           style={{ flexDirection: "row", alignItems: "center", marginLeft: 24 }}
         >
-          <Feather name="thumbs-up" size={24} color="#FF6C00" />
+          <TouchableOpacity activeOpacity={0.7}>
+            <Feather name="thumbs-up" size={24} color="#FF6C00" />
+          </TouchableOpacity>
+
           <Text style={styles.textLikes}>{likes}</Text>
         </View>
         <View
@@ -30,7 +40,10 @@ export default function PostItemProfile({
             marginLeft: "auto",
           }}
         >
-          <Feather name="map-pin" size={24} color="#BDBDBD" />
+          <TouchableOpacity activeOpacity={0.7}>
+            <Feather name="map-pin" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+
           <Text style={styles.textLocation}>{location}</Text>
         </View>
       </View>

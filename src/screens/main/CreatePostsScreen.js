@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   ImageBackground,
   TextInput,
   TouchableOpacity,
@@ -15,12 +14,12 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-export default function CreatePostsScreen(props) {
+export default function CreatePostsScreen({ navigate }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground style={styles.image}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} activeOpacity={0.7}>
             <FontAwesome name="camera" size={24} color="#BDBDBD" />
           </TouchableOpacity>
         </ImageBackground>
@@ -37,7 +36,7 @@ export default function CreatePostsScreen(props) {
             />
           </View>
         </KeyboardAvoidingView>
-        <TouchableOpacity style={styles.sendBtn}>
+        <TouchableOpacity style={styles.sendBtn} activeOpacity={0.7}>
           <Text style={styles.sendBtnText}>Опубликовать</Text>
         </TouchableOpacity>
       </View>
@@ -60,6 +59,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.296,
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 8,
     marginBottom: 8,
   },
   button: {

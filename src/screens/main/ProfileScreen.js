@@ -46,7 +46,9 @@ export default function ProfileScreen({ navigation }) {
           <SafeAreaView style={styles.list}>
             <FlatList
               data={examples}
-              renderItem={({ item }) => <PostItemProfile {...item} />}
+              renderItem={({ item }) => (
+                <PostItemProfile navigation={navigation} {...item} />
+              )}
               keyExtractor={(item) => item.id}
             />
           </SafeAreaView>

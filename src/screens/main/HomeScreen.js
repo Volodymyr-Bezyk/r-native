@@ -1,7 +1,12 @@
 import ScreenHeader from "~/components/ScreenHeader";
 import TabBar from "~/components/TabBar";
 import { BottomTab } from "~/utils";
-import { PostsScreen, CreatePostsScreen, ProfileScreen } from "~/screens/main";
+import {
+  PostsScreen,
+  CreatePostsScreen,
+  ProfileScreen,
+  CommentsScreen,
+} from "~/screens/main";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation, route }) {
@@ -43,6 +48,23 @@ export default function HomeScreen({ navigation, route }) {
         component={ProfileScreen}
         options={{ headerShown: false }}
         navigation={navigation}
+      />
+
+      <BottomTab.Screen
+        name="Comments"
+        component={CommentsScreen}
+        navigation={navigation}
+        options={({ navigation, route }) => ({
+          header: (props) => (
+            <ScreenHeader
+              title="Комментарии"
+              navigation={navigation}
+              route={route}
+              name="Comments"
+              {...props}
+            />
+          ),
+        })}
       />
     </BottomTab.Navigator>
   );

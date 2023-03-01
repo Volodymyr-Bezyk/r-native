@@ -9,7 +9,7 @@ import {
 import PostItem from "~/components/PostItem";
 import { examples } from "~/constants";
 
-export default function PostsScreen() {
+export default function PostsScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageWrap}>
@@ -27,7 +27,9 @@ export default function PostsScreen() {
 
       <FlatList
         data={examples}
-        renderItem={({ item }) => <PostItem {...item} />}
+        renderItem={({ item }) => (
+          <PostItem navigation={navigation} {...item} />
+        )}
         keyExtractor={(item) => item.id}
       ></FlatList>
     </SafeAreaView>

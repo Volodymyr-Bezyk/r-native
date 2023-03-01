@@ -1,19 +1,33 @@
 import { Feather } from "@expo/vector-icons";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function PostItem({ location, name, photo, comments }) {
-  console.log(photo);
+export default function PostItem({
+  location,
+  name,
+  photo,
+  comments,
+  navigation,
+}) {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: photo }}></Image>
       <Text style={styles.textName}>{name}</Text>
       <View style={styles.locationWrap}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Feather name="message-circle" size={24} color="#BDBDBD" />
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("Comments", {})}
+          >
+            <Feather name="message-circle" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+
           <Text style={styles.textLikes}>{comments}</Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Feather name="map-pin" size={24} color="#BDBDBD" />
+          <TouchableOpacity activeOpacity={0.7}>
+            <Feather name="map-pin" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+
           <Text style={styles.textLocation}>{location}</Text>
         </View>
       </View>

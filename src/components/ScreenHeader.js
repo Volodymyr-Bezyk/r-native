@@ -2,9 +2,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 export default function ScreenHeader({ title, name, navigation, props }) {
+  const routesWithBackLink = name === "Create" || name === "Comments";
+
   return (
     <View style={styles.headerWrap}>
-      {name === "Create" && (
+      {routesWithBackLink && (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.backLink}
@@ -16,7 +18,7 @@ export default function ScreenHeader({ title, name, navigation, props }) {
 
       <Text style={styles.headerText}>{title}</Text>
 
-      {name !== "Create" && (
+      {name !== "Create" && name !== "Comments" && (
         <TouchableOpacity
           onPress={() => navigation.navigate("Login", {})}
           style={styles.logoutBtn}
