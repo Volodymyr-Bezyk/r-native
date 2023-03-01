@@ -10,37 +10,33 @@ import {
   Dimensions,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
 } from "react-native";
 
 export default function CreatePostsScreen({ navigate }) {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ImageBackground style={styles.image}>
-          <TouchableOpacity style={styles.button} activeOpacity={0.7}>
-            <FontAwesome name="camera" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
-        </ImageBackground>
-        <Text style={styles.text}>Загрузите фото</Text>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
-          <TextInput style={styles.textInputName} placeholder="Название..." />
-          <View style={styles.locationWrap}>
-            <Feather name="map-pin" size={24} color="#BDBDBD" />
-            <TextInput
-              style={styles.textInputLocation}
-              placeholder="Местность..."
-            />
-          </View>
-        </KeyboardAvoidingView>
-        <TouchableOpacity style={styles.sendBtn} activeOpacity={0.7}>
-          <Text style={styles.sendBtnText}>Опубликовать</Text>
+    <View style={styles.container}>
+      <ImageBackground style={styles.image}>
+        <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+          <FontAwesome name="camera" size={24} color="#BDBDBD" />
         </TouchableOpacity>
-      </View>
-    </TouchableWithoutFeedback>
+      </ImageBackground>
+      <Text style={styles.text}>Загрузите фото</Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      >
+        <TextInput style={styles.textInputName} placeholder="Название..." />
+        <View style={styles.locationWrap}>
+          <Feather name="map-pin" size={24} color="#BDBDBD" />
+          <TextInput
+            style={styles.textInputLocation}
+            placeholder="Местность..."
+          />
+        </View>
+      </KeyboardAvoidingView>
+      <TouchableOpacity style={styles.sendBtn} activeOpacity={0.7}>
+        <Text style={styles.sendBtnText}>Опубликовать</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 

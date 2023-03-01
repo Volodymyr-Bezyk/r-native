@@ -1,7 +1,7 @@
 import { View, Keyboard, TouchableWithoutFeedback, Button } from "react-native";
 import { AuthStack } from "~/utils";
 import { RegistrationScreen, LoginScreen } from "~/screens/auth";
-import { HomeScreen } from "~/screens/main";
+import HomeScreen from "~/screens/main/HomeScreen";
 
 const useRoute = (isAuthorized) => {
   return (

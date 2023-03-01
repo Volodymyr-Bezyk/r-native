@@ -47,7 +47,10 @@ export const CommentsItem = ({
           ...styles.textWrap,
         }}
       >
-        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.text}>
+          {index}
+          {text}
+        </Text>
         <Text
           style={{
             ...styles.textDate,

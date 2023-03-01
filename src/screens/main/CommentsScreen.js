@@ -1,18 +1,10 @@
-import { FontAwesome, Feather } from "@expo/vector-icons";
-
 import {
   StyleSheet,
-  Text,
   View,
-  ImageBackground,
   Image,
   SafeAreaView,
   FlatList,
-  TextInput,
-  TouchableOpacity,
   Dimensions,
-  KeyboardAvoidingView,
-  Platform,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
@@ -48,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
-    paddingVertical: 32,
+    paddingTop: 32,
   },
   image: {
     backgroundColor: "#F6F6F6",
@@ -61,7 +53,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   list: {
+    flex: 1,
     paddingTop: 32,
-    paddingBottom: 114,
+    paddingBottom: 16,
   },
 });

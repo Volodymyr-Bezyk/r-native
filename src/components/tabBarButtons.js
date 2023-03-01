@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Keyboard,
   TextInput,
-  Text,
 } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
 
