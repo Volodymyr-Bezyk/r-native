@@ -13,9 +13,9 @@ import { Feather } from "@expo/vector-icons";
 import { examples } from "~/constants";
 import PostItemProfile from "~/components/PostItemProfile";
 
-export default function PostsScreen() {
+export default function ProfileScreen({ navigation }) {
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
         resizeMode="cover"
         source={require("~/../assets/images/BG.jpg")}
@@ -34,7 +34,7 @@ export default function PostsScreen() {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => console.log("LogOUT")}
+            onPress={() => navigation.navigate("Login", {})}
             style={styles.logoutBtn}
             activeOpacity={0.8}
           >
@@ -57,9 +57,6 @@ export default function PostsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   bg: {
     flex: 1,
     paddingTop: 147,

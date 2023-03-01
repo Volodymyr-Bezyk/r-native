@@ -18,7 +18,7 @@ export default function ScreenHeader({ title, name, navigation, props }) {
 
       {name !== "Create" && (
         <TouchableOpacity
-          onPress={() => console.log("LogOUT")}
+          onPress={() => navigation.navigate("Login", {})}
           style={styles.logoutBtn}
           activeOpacity={0.8}
         >

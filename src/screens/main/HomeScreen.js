@@ -6,9 +6,6 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation, route }) {
   const routeName = getFocusedRouteNameFromRoute(route);
-  // console.log("navigation in HomeRouter", navigation);
-  // console.log("route", route.name);
-  // console.log("routeName", routeName);
 
   return (
     <BottomTab.Navigator
@@ -19,7 +16,9 @@ export default function HomeScreen({ navigation, route }) {
         name="Posts"
         component={PostsScreen}
         options={{
-          header: () => <ScreenHeader title="Публикации" />,
+          header: () => (
+            <ScreenHeader title="Публикации" navigation={navigation} />
+          ),
         }}
       />
 
@@ -43,6 +42,7 @@ export default function HomeScreen({ navigation, route }) {
         name="Profile"
         component={ProfileScreen}
         options={{ headerShown: false }}
+        navigation={navigation}
       />
     </BottomTab.Navigator>
   );

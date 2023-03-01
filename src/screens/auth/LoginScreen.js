@@ -36,11 +36,14 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const handleSignUp = (e) => {
-    console.log({ email, password });
+    // console.log({ email, password });
 
     setEmail("");
     setPassword("");
-    navigation.navigate("Home", { screen: "Login", params: {} });
+    navigation.navigate("Home", {
+      screen: "Login",
+      credentials: { email, password },
+    });
   };
 
   const handleToRegister = (e) =>

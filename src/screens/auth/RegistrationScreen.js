@@ -43,7 +43,10 @@ export default function RegistrationScreen({ navigation }) {
     setName("");
     setEmail("");
     setPassword("");
-    navigation.navigate("Home", { screen: "Registration", params: {} });
+    navigation.navigate("Home", {
+      screen: "Registration",
+      credential: { email, password, name },
+    });
   };
 
   const handleToLogin = (e) =>

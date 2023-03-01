@@ -1,4 +1,5 @@
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
+import { View, TouchableOpacity, StyleSheet, Keyboard } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 export default function tabBarButtons(routeName, navigation) {
@@ -6,6 +7,23 @@ export default function tabBarButtons(routeName, navigation) {
     routeName === "Posts" ||
     routeName === "Registration" ||
     routeName === "Login";
+
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardVisible(true);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   if (mainRoute) {
     return (
       <View style={styles.tabWrap}>
@@ -94,6 +112,8 @@ export default function tabBarButtons(routeName, navigation) {
   }
 
   if (routeName === "Create") {
+    if (keyboardVisible) return;
+
     return (
       <View style={{ ...styles.tabWrap, borderTopColor: "transparent" }}>
         <TouchableOpacity

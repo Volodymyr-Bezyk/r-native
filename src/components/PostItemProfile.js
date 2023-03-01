@@ -8,7 +8,6 @@ export default function PostItemProfile({
   comments,
   likes,
 }) {
-  console.log(photo);
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: photo }}></Image>
@@ -61,9 +60,9 @@ const styles = StyleSheet.create({
   locationWrap: {
     flexDirection: "row",
     alignItems: "center",
-    // justifyContent: "space-between",
   },
   textLocation: {
+    marginLeft: 4,
     fontFamily: "Roboto-Regular",
     fontWeight: "400",
     fontSize: 16,
