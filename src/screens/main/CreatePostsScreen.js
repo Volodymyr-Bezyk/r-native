@@ -1,41 +1,184 @@
 import { FontAwesome, Feather } from "@expo/vector-icons";
+import { Camera, CameraType } from "expo-camera";
+import { useState, useEffect } from "react";
+import * as Location from "expo-location";
 
 import {
   StyleSheet,
   Text,
   View,
+  Image,
   ImageBackground,
   TextInput,
   TouchableOpacity,
   Dimensions,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from "react-native";
 
-export default function CreatePostsScreen({ navigate }) {
+export default function CreatePostsScreen({ navigation }) {
+  // const [type, setType] = useState(CameraType.back);
+  // const [permission, requestPermission] = Camera.useCameraPermissions();
+  // if (!permission)
+  // if (!permission.granted)
+
+  // const toggleCameraType = () => {
+  //   setType((current) =>
+  //     current === CameraType.back ? CameraType.front : CameraType.back
+  //   );
+  // };
+
+  const [camera, setCamera] = useState(null);
+  const [photoUri, setPhotoUri] = useState("");
+  const [placeName, setPlaceName] = useState("");
+  const [adress, setAdress] = useState("");
+  const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardIsVisible(true);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardIsVisible(false);
+    });
+
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") return;
+    })();
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const takePicture = async () => {
+    const location = await Location.getCurrentPositionAsync();
+    const picture = await camera.takePictureAsync();
+    setPhotoUri(picture.uri);
+    setLocation(location);
+  };
+
+  const sendPicture = () => {
+    navigation.navigate("Posts", {
+      photo: photoUri,
+      name: placeName,
+      location: adress,
+      id: Date.now(),
+      coords: location.coords,
+      createdAt: location.timestamp,
+    });
+    setPhotoUri("");
+    setPlaceName("");
+    setAdress("");
+  };
+  const changeSendBtnColor = photoUri && placeName && adress;
+
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.image}>
-        <TouchableOpacity style={styles.button} activeOpacity={0.7}>
-          <FontAwesome name="camera" size={24} color="#BDBDBD" />
-        </TouchableOpacity>
-      </ImageBackground>
-      <Text style={styles.text}>Загрузите фото</Text>
-      <KeyboardAvoidingView
+      <View style={styles.cameraWrap}>
+        <Camera style={styles.camera} ref={setCamera}>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: photoUri
+                ? "rgba(255, 255, 255, 0.3)"
+                : "rgba(255, 255, 255, 0.9)",
+            }}
+            activeOpacity={0.7}
+            onPress={takePicture}
+          >
+            <FontAwesome
+              name="camera"
+              size={24}
+              color={photoUri ? "#FFFFFF" : "#BDBDBD"}
+            />
+          </TouchableOpacity>
+          {photoUri !== "" && (
+            <Image source={{ uri: photoUri }} style={styles.photo} />
+          )}
+        </Camera>
+      </View>
+      <Text style={{ ...styles.text, color: "#BDBDBD" }}>Загрузите фото</Text>
+      {/* <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
+      > */}
+
+      <KeyboardAvoidingView
+        {...(Platform.OS === "ios" ? { behavior: "padding" } : {})}
+        // you might need sometimes👇
+        contentContainerStyle={{ flex: 1 }}
+        // chances are you might be using react-navigation
+        // if so 👇
+        keyboardVerticalOffset={Header.HEIGHT + 64}
+        // You can import Header Component from react-navigation and it has height attached to it
+        // 64 is some extra padding, I feel good, feel free to tweak it
       >
-        <TextInput style={styles.textInputName} placeholder="Название..." />
-        <View style={styles.locationWrap}>
-          <Feather name="map-pin" size={24} color="#BDBDBD" />
-          <TextInput
-            style={styles.textInputLocation}
-            placeholder="Местность..."
-          />
-        </View>
+        {children}
       </KeyboardAvoidingView>
-      <TouchableOpacity style={styles.sendBtn} activeOpacity={0.7}>
-        <Text style={styles.sendBtnText}>Опубликовать</Text>
+
+      <TextInput
+        onChangeText={setPlaceName}
+        value={placeName}
+        style={{
+          ...styles.textInputName,
+          fontWeight: placeName ? "500" : "400",
+          color: placeName ? "#212121" : "#BDBDBD",
+        }}
+        placeholder="Название..."
+      />
+
+      <View style={styles.locationWrap}>
+        <Feather name="map-pin" size={24} color="#BDBDBD" />
+
+        <TextInput
+          onChangeText={setAdress}
+          value={adress}
+          style={{
+            ...styles.textInputLocation,
+            color: adress ? "#212121" : "#BDBDBD",
+          }}
+          placeholder="Местность..."
+        />
+      </View>
+      {/* </KeyboardAvoidingView> */}
+
+      <TouchableOpacity
+        style={{
+          ...styles.sendBtn,
+          backgroundColor: changeSendBtnColor ? "#FF6C00" : "#F6F6F6",
+        }}
+        activeOpacity={0.7}
+        disabled={!changeSendBtnColor}
+        onPress={sendPicture}
+      >
+        <Text
+          style={{
+            ...styles.sendBtnText,
+            color: changeSendBtnColor ? "#FFFFFF" : "#BDBDBD",
+          }}
+        >
+          Опубликовать
+        </Text>
       </TouchableOpacity>
+      {!keyboardIsVisible && (
+        <View style={{ ...styles.tabWrap, borderTopColor: "transparent" }}>
+          <TouchableOpacity
+            onPress={() => setPhotoUri("")}
+            style={{ ...styles.deleteBtnWrap, backgroundColor: "#F6F6F6" }}
+            activeOpacity={0.8}
+          >
+            <Feather
+              name="trash-2"
+              size={24}
+              color={photoUri ? "#FF6C00" : "#BDBDBD"}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -45,35 +188,40 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 16,
-    paddingVertical: 32,
+    paddingTop: 32,
   },
-  image: {
-    backgroundColor: "#F6F6F6",
-    border: "1px solid #E8E8E8",
+  cameraWrap: {
+    overflow: "hidden",
+    marginBottom: 8,
     borderRadius: 8,
+  },
+  camera: {
+    backgroundColor: "#F6F6F6",
     width: "100%",
     height: Dimensions.get("window").height * 0.296,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8,
-    marginBottom: 8,
+  },
+  photo: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: Dimensions.get("window").height * 0.296,
+    borderWidth: 1,
+    borderColor: "red",
   },
   button: {
     width: Dimensions.get("window").height * 0.074,
     height: Dimensions.get("window").height * 0.074,
-    backgroundColor: "#ffffff",
-    // backgroundColor: "rgba(255,255,255,0.3)",
-    // opacity: 0.3,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
     fontFamily: "Roboto-Regular",
-    fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
-    color: "#BDBDBD",
     marginBottom: 32,
   },
   textInputName: {
@@ -82,7 +230,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
-    color: "#BDBDBD",
     borderBottomWidth: 1,
     borderBottomColor: "#E8E8E8",
     marginBottom: 16,
@@ -108,7 +255,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F6F6F6",
+
     borderRadius: 100,
     height: 51,
   },
@@ -117,6 +264,21 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 16,
     lineHeight: 19,
-    color: "#BDBDBD",
+  },
+  tabWrap: {
+    marginTop: "auto",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    paddingTop: 9,
+    paddingBottom: 34,
+  },
+  deleteBtnWrap: {
+    height: 40,
+    width: 70,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 31,
+    backgroundColor: "#FF6C00",
+    borderRadius: 20,
   },
 });

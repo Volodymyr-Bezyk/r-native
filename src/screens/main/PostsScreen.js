@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Image,
   View,
@@ -9,7 +10,20 @@ import {
 import PostItem from "~/components/PostItem";
 import { examples } from "~/constants";
 
-export default function PostsScreen({ navigation }) {
+export default function PostsScreen({ navigation, route }) {
+  const [posts, setPosts] = useState(examples);
+  console.log(route.params);
+  useEffect(() => {
+    if (route.params) {
+      const { name, photo, location } = route.params;
+      if (name && photo && location) {
+        setPosts((prevS) => [route.params, ...prevS]);
+      }
+    }
+
+    return () => {};
+  }, [route.params]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imageWrap}>
@@ -26,7 +40,7 @@ export default function PostsScreen({ navigation }) {
       </View>
 
       <FlatList
-        data={examples}
+        data={posts}
         renderItem={({ item }) => (
           <PostItem navigation={navigation} {...item} />
         )}

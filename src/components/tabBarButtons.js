@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
 
-export default function tabBarButtons(routeName, navigation) {
+export default function tabBarButtons(routeName, navigation, other) {
   const mainRoute =
     routeName === "Posts" ||
     routeName === "Registration" ||
@@ -117,21 +117,21 @@ export default function tabBarButtons(routeName, navigation) {
     );
   }
 
-  if (routeName === "Create") {
-    if (keyboardVisible) return;
+  // if (routeName === "Create") {
+  //   if (keyboardVisible) return;
 
-    return (
-      <View style={{ ...styles.tabWrap, borderTopColor: "transparent" }}>
-        <TouchableOpacity
-          onPress={() => console.log("Delete Post")}
-          style={{ ...styles.centerBtnWrap, backgroundColor: "#F6F6F6" }}
-          activeOpacity={0.8}
-        >
-          <Feather name="trash-2" size={24} color="#BDBDBD" />
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  //   return (
+  //     <View style={{ ...styles.tabWrap, borderTopColor: "transparent" }}>
+  //       <TouchableOpacity
+  //         onPress={() => console.log("Delete Post")}
+  //         style={{ ...styles.centerBtnWrap, backgroundColor: "#F6F6F6" }}
+  //         activeOpacity={0.8}
+  //       >
+  //         <Feather name="trash-2" size={24} color="#BDBDBD" />
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // }
 
   if (routeName === "Comments") {
     return (

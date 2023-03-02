@@ -21,8 +21,10 @@ export default function RegistrationScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeField, setActiveField] = useState(null);
-  const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
+
   const [passwordIsHidden, setPasswordIsHidden] = useState(true);
+
+  const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {

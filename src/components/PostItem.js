@@ -5,7 +5,7 @@ export default function PostItem({
   location,
   name,
   photo,
-  comments,
+  comments = 0,
   navigation,
 }) {
   return (
