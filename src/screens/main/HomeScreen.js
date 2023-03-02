@@ -6,6 +6,7 @@ import {
   CreatePostsScreen,
   ProfileScreen,
   CommentsScreen,
+  MapScreen,
 } from "~/screens/main";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
@@ -65,6 +66,13 @@ export default function HomeScreen({ navigation, route }) {
             />
           ),
         })}
+      />
+
+      <BottomTab.Screen
+        name="Map"
+        component={MapScreen}
+        options={{ headerShown: false }}
+        navigation={navigation}
       />
     </BottomTab.Navigator>
   );

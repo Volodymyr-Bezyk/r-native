@@ -12,7 +12,6 @@ import { examples } from "~/constants";
 
 export default function PostsScreen({ navigation, route }) {
   const [posts, setPosts] = useState(examples);
-  console.log(route.params);
   useEffect(() => {
     if (route.params) {
       const { name, photo, location } = route.params;

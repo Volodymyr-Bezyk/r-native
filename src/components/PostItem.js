@@ -7,6 +7,7 @@ export default function PostItem({
   photo,
   comments = 0,
   navigation,
+  coords,
 }) {
   return (
     <View style={styles.container}>
@@ -24,7 +25,10 @@ export default function PostItem({
           <Text style={styles.textLikes}>{comments}</Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("Map", { coords })}
+          >
             <Feather name="map-pin" size={24} color="#BDBDBD" />
           </TouchableOpacity>
 
