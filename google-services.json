@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1027347091187",
+    "project_id": "rnativesoc",
+    "storage_bucket": "rnativesoc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027347091187:android:8ea7a235f2411ba97ef186",
+        "android_client_info": {
+          "package_name": "test.RN"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027347091187-8hh994u1kpfst60lfgb22b6mh4e8ir4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcOjFAGHP8m1wvmTTIkIbh8SboNVgp5GI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027347091187-8hh994u1kpfst60lfgb22b6mh4e8ir4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

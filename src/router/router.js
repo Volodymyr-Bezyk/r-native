@@ -3,11 +3,26 @@ import { AuthStack } from "~/utils";
 import { RegistrationScreen, LoginScreen } from "~/screens/auth";
 import HomeScreen from "~/screens/main/HomeScreen";
 
-const useRoute = (isAuthorized) => {
+const useRoute = (user) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
         <AuthStack.Navigator initialRouteName="Login">
+          {/* {!user ? ( */}
+          <>
+            <AuthStack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+
+            <AuthStack.Screen
+              name="Registration"
+              component={RegistrationScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+          {/* ) : ( */}
           <AuthStack.Screen
             name="Home"
             component={HomeScreen}
@@ -15,17 +30,7 @@ const useRoute = (isAuthorized) => {
               headerShown: false,
             }}
           />
-          <AuthStack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-
-          <AuthStack.Screen
-            name="Registration"
-            component={RegistrationScreen}
-            options={{ headerShown: false }}
-          />
+          {/* )} */}
         </AuthStack.Navigator>
       </View>
     </TouchableWithoutFeedback>

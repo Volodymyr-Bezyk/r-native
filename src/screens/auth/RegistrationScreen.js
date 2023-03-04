@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { authSignUpUser } from "~/redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 import {
   StyleSheet,
   Text,
@@ -17,6 +20,8 @@ import { Feather } from "@expo/vector-icons";
 import credentialFields from "~/constants";
 
 export default function RegistrationScreen({ navigation }) {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,10 +46,11 @@ export default function RegistrationScreen({ navigation }) {
   }, []);
 
   const handleRegister = (e) => {
-    console.log({ name, email, password });
-    setName("");
-    setEmail("");
-    setPassword("");
+    // console.log({ name, email, password });
+    dispatch(authSignUpUser({ name, email, password }));
+    // setName("");
+    // setEmail("");
+    // setPassword("");
     navigation.navigate("Home", {
       screen: "Registration",
       credential: { email, password, name },

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   StyleSheet,
   Text,
@@ -13,8 +14,11 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import credentialFields from "~/constants";
+import { authSignInUser } from "~/redux/auth/authOperations";
 
 export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeField, setActiveField] = useState(null);
@@ -35,11 +39,11 @@ export default function LoginScreen({ navigation }) {
     };
   }, []);
 
-  const handleSignUp = (e) => {
+  const handleSignIn = (e) => {
     // console.log({ email, password });
-
-    setEmail("");
-    setPassword("");
+    dispatch(authSignInUser({ email, password }));
+    // setEmail("");
+    // setPassword("");
     navigation.navigate("Home", {
       screen: "Login",
       credentials: { email, password },
@@ -129,7 +133,7 @@ export default function LoginScreen({ navigation }) {
             {!keyboardVisible && (
               <View>
                 <TouchableOpacity
-                  onPress={handleSignUp}
+                  onPress={handleSignIn}
                   style={styles.regBtn}
                   activeOpacity={0.8}
                 >
