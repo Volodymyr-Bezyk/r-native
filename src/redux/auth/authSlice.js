@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   authSignUpUser,
   authSignInUser,
-  authChangeUserState,
+  authSignOutUser,
 } from "./authOperations";
 
 export const authSlice = createSlice({
@@ -32,13 +32,13 @@ export const authSlice = createSlice({
         state.userId = action.payload.uid;
         state.email = action.payload.email;
         state.login = action.payload.displayName;
+      })
+      .addCase(authSignOutUser.fulfilled, (state, action) => {
+        state.userId = action.payload.uid;
+        state.email = action.payload.email;
+        state.login = action.payload.displayName;
+        state.stateChange = action.payload.stateChange;
       }),
-  //     .addCase(authChangeUserState.fulfilled, (state, action) => {
-  //       state.userId = action.payload.uid;
-  //       state.email = action.payload.email;
-  //       state.login = action.payload.displayName;
-  //       state.stateChange = action.payload.stateChange;
-  //     }),
 });
 
 export const authReducer = authSlice.reducer;

@@ -1,8 +1,16 @@
+import { useDispatch } from "react-redux";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { authSignOutUser } from "~/redux/auth/authOperations";
 
 export default function ScreenHeader({ title, name, navigation, props }) {
+  const dispatch = useDispatch();
   const routesWithBackLink = name === "Create" || name === "Comments";
+
+  const handleLogOut = () => {
+    dispatch(authSignOutUser());
+    // navigation.navigate("Login", {});
+  };
 
   return (
     <View style={styles.headerWrap}>
@@ -20,7 +28,7 @@ export default function ScreenHeader({ title, name, navigation, props }) {
 
       {name !== "Create" && name !== "Comments" && (
         <TouchableOpacity
-          onPress={() => navigation.navigate("Login", {})}
+          onPress={handleLogOut}
           style={styles.logoutBtn}
           activeOpacity={0.8}
         >

@@ -44,10 +44,10 @@ export default function LoginScreen({ navigation }) {
     dispatch(authSignInUser({ email, password }));
     // setEmail("");
     // setPassword("");
-    navigation.navigate("Home", {
-      screen: "Login",
-      credentials: { email, password },
-    });
+    // navigation.navigate("Home", {
+    //   screen: "Login",
+    //   credentials: { email, password },
+    // });
   };
 
   const handleToRegister = (e) =>

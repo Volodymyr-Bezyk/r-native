@@ -2,18 +2,20 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  updateProfile,
+  signOut,
 } from "firebase/auth";
 import { auth } from "~/firebase/config";
-import { updateUserProfile } from "./authSlice";
 
 export const authSignUpUser = createAsyncThunk(
   "user/register",
   async ({ email: userEmail, password, name }, thunkApi) => {
     try {
       await createUserWithEmailAndPassword(auth, userEmail, password);
-      // https://firebase.google.com/docs/auth/web/manage-users?hl=ru#update_a_users_profile
-      await onAuthStateChanged(auth, (user) => (user.displayName = name));
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: "https://example.com/jane-q-user/profile.jpg",
+      });
       const { displayName, email, uid } = await auth.currentUser;
 
       console.log("userRegister", auth.currentUser);
@@ -45,28 +47,17 @@ export const authSignOutUser = createAsyncThunk(
   "user/logout",
   async (_, thunkApi) => {
     try {
+      await auth.signOut();
+      console.log("LOGOUT");
+      return {
+        uid: null,
+        email: null,
+        displayName: null,
+        stateChange: false,
+      };
     } catch (error) {
+      console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
-
-export const authChangeUserState = () => async (dispatch) => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const { uid, email, displayName } = user;
-      dispatch(
-        updateUserProfile({ uid, email, displayName, stateChange: true })
-      );
-    } else {
-      dispatch(
-        updateUserProfile({
-          uid: null,
-          email: null,
-          displayName: null,
-          stateChange: false,
-        })
-      );
-    }
-  });
-};

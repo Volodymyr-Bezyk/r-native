@@ -9,10 +9,7 @@ import {
 import { Feather, AntDesign } from "@expo/vector-icons";
 
 export default function tabBarButtons(routeName, navigation, other) {
-  const mainRoute =
-    routeName === "Posts" ||
-    routeName === "Registration" ||
-    routeName === "Login";
+  const mainRoute = !routeName || routeName === "Posts";
 
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
