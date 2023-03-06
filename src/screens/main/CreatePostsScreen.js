@@ -2,6 +2,12 @@ import { FontAwesome, Feather } from "@expo/vector-icons";
 import { Camera, CameraType } from "expo-camera";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
+import { db, storage, storageRef } from "~/firebase/config";
+import { collection, doc, setDoc, addDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { uploadPhotoToFirebase } from "~/utils";
+import { useSelector } from "react-redux";
+import { selectUserId } from "~/redux/auth/selectors";
 
 import {
   StyleSheet,
@@ -18,22 +24,13 @@ import {
 } from "react-native";
 
 export default function CreatePostsScreen({ navigation }) {
-  // const [type, setType] = useState(CameraType.back);
-  // const [permission, requestPermission] = Camera.useCameraPermissions();
-  // if (!permission)
-  // if (!permission.granted)
-
-  // const toggleCameraType = () => {
-  //   setType((current) =>
-  //     current === CameraType.back ? CameraType.front : CameraType.back
-  //   );
-  // };
-
   const [camera, setCamera] = useState(null);
   const [photoUri, setPhotoUri] = useState("");
   const [placeName, setPlaceName] = useState("");
   const [adress, setAdress] = useState("");
   const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
+  const [location, setLocation] = useState(null);
+  const userId = useSelector(selectUserId);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -45,7 +42,12 @@ export default function CreatePostsScreen({ navigation }) {
 
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") return;
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      setLocation(location.coords);
     })();
 
     return () => {
@@ -60,7 +62,20 @@ export default function CreatePostsScreen({ navigation }) {
   };
 
   const sendPicture = async () => {
-    const location = (await Location.getCurrentPositionAsync()) ?? null;
+    const photo = await uploadPhotoToFirebase(photoUri);
+
+    const docRef = await addDoc(collection(db, "posts"), {
+      photo,
+      name: placeName,
+      location: adress,
+      likes: 0,
+      comments: [],
+      coords: location,
+      owner: userId,
+      createdAt: new Date().toLocaleString(),
+    });
+
+    console.log("Document written with ID: ", docRef.id);
 
     navigation.navigate("Posts", {
       photo: photoUri,
@@ -69,6 +84,7 @@ export default function CreatePostsScreen({ navigation }) {
       id: Date.now(),
       coords: location.coords,
       createdAt: location.timestamp,
+      coords: location,
     });
     setPhotoUri("");
     setPlaceName("");

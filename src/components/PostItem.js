@@ -5,7 +5,7 @@ export default function PostItem({
   location,
   name,
   photo,
-  comments = 0,
+  comments = [],
   navigation,
   coords,
 }) {
@@ -22,7 +22,7 @@ export default function PostItem({
             <Feather name="message-circle" size={24} color="#BDBDBD" />
           </TouchableOpacity>
 
-          <Text style={styles.textLikes}>{comments}</Text>
+          <Text style={styles.textLikes}>{comments.length}</Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity

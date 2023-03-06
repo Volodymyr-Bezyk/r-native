@@ -22,7 +22,7 @@ export default function PostItemProfile({
             <Feather name="message-circle" size={24} color="#FF6C00" />
           </TouchableOpacity>
 
-          <Text style={styles.textLikes}>{comments}</Text>
+          <Text style={styles.textLikes}>{comments.length}</Text>
         </View>
         <View
           style={{ flexDirection: "row", alignItems: "center", marginLeft: 24 }}

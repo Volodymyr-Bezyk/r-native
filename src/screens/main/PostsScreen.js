@@ -8,20 +8,17 @@ import {
   StyleSheet,
 } from "react-native";
 import PostItem from "~/components/PostItem";
-import { examples } from "~/constants";
+// import { examples } from "~/constants";
+import { loadPostsFromDatabase } from "~/utils/loadPostsFromDatabase";
 
 export default function PostsScreen({ navigation, route }) {
-  const [posts, setPosts] = useState(examples);
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    if (route.params) {
-      const { name, photo, location } = route.params;
-      if (name && photo && location) {
-        setPosts((prevS) => [route.params, ...prevS]);
-      }
-    }
+    loadPostsFromDatabase(setPosts);
 
     return () => {};
-  }, [route.params]);
+  }, [posts]);
 
   return (
     <SafeAreaView style={styles.container}>

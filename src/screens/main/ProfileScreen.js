@@ -12,8 +12,19 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { examples } from "~/constants";
 import PostItemProfile from "~/components/PostItemProfile";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUserId } from "~/redux/auth/selectors";
+import { loadOwnPostsFromDatabase } from "~/utils/loadOwnPostsFromDatabase";
 
 export default function ProfileScreen({ navigation }) {
+  const [posts, setPosts] = useState([]);
+  const userId = useSelector(selectUserId);
+
+  useEffect(() => {
+    loadOwnPostsFromDatabase(setPosts, userId);
+  }, [userId]);
+
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -45,7 +56,7 @@ export default function ProfileScreen({ navigation }) {
 
           <SafeAreaView style={styles.list}>
             <FlatList
-              data={examples}
+              data={posts}
               renderItem={({ item }) => (
                 <PostItemProfile navigation={navigation} {...item} />
               )}
