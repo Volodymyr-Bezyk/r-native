@@ -5,9 +5,10 @@ export default function PostItem({
   location,
   name,
   photo,
-  comments = [],
+  comments,
   navigation,
   coords,
+  id,
 }) {
   return (
     <View style={styles.container}>
@@ -17,7 +18,7 @@ export default function PostItem({
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate("Comments", {})}
+            onPress={() => navigation.navigate("Comments", { id })}
           >
             <Feather name="message-circle" size={24} color="#BDBDBD" />
           </TouchableOpacity>

@@ -16,7 +16,7 @@ export const authSignUpUser = createAsyncThunk(
         displayName: name,
         photoURL: "https://example.com/jane-q-user/profile.jpg",
       });
-      const { displayName, email, uid } = await auth.currentUser;
+      const { displayName, email, uid, photoURL } = await auth.currentUser;
 
       console.log("userRegister", auth.currentUser);
       return { displayName, email, uid };

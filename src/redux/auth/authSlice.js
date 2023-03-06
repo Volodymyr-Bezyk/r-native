@@ -12,6 +12,8 @@ export const authSlice = createSlice({
     login: null,
     email: null,
     stateChange: false,
+    userAvatar: "",
+    currentPostId: "",
   },
   reducers: {
     updateUserProfile(state, action) {
@@ -19,6 +21,12 @@ export const authSlice = createSlice({
       state.email = action.payload.email;
       state.login = action.payload.displayName;
       state.stateChange = action.payload.stateChange;
+    },
+    setCurrentPostId(state, action) {
+      state.currentPostId = action.payload.currentPostId;
+    },
+    removeCurrentPostId(state, action) {
+      state.currentPostId = "";
     },
   },
   extraReducers: (builder) =>
@@ -42,4 +50,5 @@ export const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-export const { updateUserProfile } = authSlice.actions;
+export const { updateUserProfile, setCurrentPostId, removeCurrentPostId } =
+  authSlice.actions;

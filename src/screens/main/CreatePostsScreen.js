@@ -75,7 +75,7 @@ export default function CreatePostsScreen({ navigation }) {
       createdAt: new Date().toLocaleString(),
     });
 
-    console.log("Document written with ID: ", docRef.id);
+    // console.log("Document written with ID: ", docRef.id);
 
     navigation.navigate("Posts", {
       photo: photoUri,

@@ -7,6 +7,8 @@ export default function PostItemProfile({
   photo,
   comments,
   likes,
+  coords,
+  id,
   navigation,
 }) {
   return (
@@ -17,7 +19,7 @@ export default function PostItemProfile({
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate("Comments", {})}
+            onPress={() => navigation.navigate("Comments", { id })}
           >
             <Feather name="message-circle" size={24} color="#FF6C00" />
           </TouchableOpacity>
@@ -40,7 +42,10 @@ export default function PostItemProfile({
             marginLeft: "auto",
           }}
         >
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => navigation.navigate("Map", { coords })}
+          >
             <Feather name="map-pin" size={24} color="#BDBDBD" />
           </TouchableOpacity>
 

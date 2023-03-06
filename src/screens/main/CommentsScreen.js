@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -10,12 +11,31 @@ import {
 } from "react-native";
 import { CommentsItem } from "~/components/CommentsItem";
 import { examples, comments } from "~/constants/index";
+import { getOnePost } from "~/utils/getOnePost";
+import { pushNewCommentToPost } from "~/utils/pushNewCommentToPost";
+import { setCurrentPostId, removeCurrentPostId } from "~/redux/auth/authSlice";
+import { useDispatch } from "react-redux";
 
-export default function CommentsScreen({ navigation }) {
+export default function CommentsScreen({ navigation, route }) {
+  const [postInfo, setPostInfo] = useState(null);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getOnePost(route.params.id, setPostInfo);
+    dispatch(setCurrentPostId({ currentPostId: route.params.id }));
+
+    return () => {
+      dispatch(removeCurrentPostId());
+    };
+  }, [route.params.id]);
+
+  if (!postInfo) return;
+  const { photo } = postInfo;
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Image source={{ uri: examples[0].photo }} style={styles.image} />
+        <Image source={{ uri: photo }} style={styles.image} />
         <SafeAreaView style={styles.list}>
           <FlatList
             data={comments}

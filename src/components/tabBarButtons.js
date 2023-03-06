@@ -7,11 +7,21 @@ import {
   TextInput,
 } from "react-native";
 import { Feather, AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import {
+  selectCurrentPostId,
+  selectUserAvatar,
+  selectUserId,
+} from "~/redux/auth/selectors";
+import { pushNewCommentToPost } from "~/utils/pushNewCommentToPost";
 
 export default function tabBarButtons(routeName, navigation, other) {
-  const mainRoute = !routeName || routeName === "Posts";
-
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [comment, setComment] = useState("");
+  const currentPostId = useSelector(selectCurrentPostId);
+  const userId = useSelector(selectUserId);
+  const ownerAvatar = useSelector(selectUserAvatar);
+  const mainRoute = !routeName || routeName === "Posts";
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -26,6 +36,18 @@ export default function tabBarButtons(routeName, navigation, other) {
       hideSubscription.remove();
     };
   }, []);
+
+  const handleComment = async () => {
+    const commentItem = {
+      id: Date.now(),
+      comment,
+      owner: userId,
+      avatar: ownerAvatar,
+      createdAt: new Date().toLocaleString(),
+    };
+    await pushNewCommentToPost(currentPostId, commentItem);
+    console.log("commentItem", commentItem);
+  };
 
   if (mainRoute) {
     return (
@@ -114,30 +136,19 @@ export default function tabBarButtons(routeName, navigation, other) {
     );
   }
 
-  // if (routeName === "Create") {
-  //   if (keyboardVisible) return;
-
-  //   return (
-  //     <View style={{ ...styles.tabWrap, borderTopColor: "transparent" }}>
-  //       <TouchableOpacity
-  //         onPress={() => console.log("Delete Post")}
-  //         style={{ ...styles.centerBtnWrap, backgroundColor: "#F6F6F6" }}
-  //         activeOpacity={0.8}
-  //       >
-  //         <Feather name="trash-2" size={24} color="#BDBDBD" />
-  //       </TouchableOpacity>
-  //     </View>
-  //   );
-  // }
-
   if (routeName === "Comments") {
     return (
       <View style={styles.commentsContainer}>
         <TextInput
           style={styles.commentsInput}
           placeholder="Комментировать..."
+          onChangeText={setComment}
         ></TextInput>
-        <TouchableOpacity style={styles.commentsBtn} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.commentsBtn}
+          activeOpacity={0.7}
+          onPress={handleComment}
+        >
           <AntDesign name="arrowup" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
