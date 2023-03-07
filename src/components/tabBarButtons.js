@@ -141,6 +141,7 @@ export default function tabBarButtons(routeName, navigation, other) {
           style={styles.commentsInput}
           placeholder="Комментировать..."
           onChangeText={setComment}
+          value={comment}
         ></TextInput>
         <TouchableOpacity
           style={styles.commentsBtn}

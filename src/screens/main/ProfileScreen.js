@@ -37,8 +37,8 @@ export default function ProfileScreen({ navigation }) {
   const email = useSelector(selectUserEmail);
 
   useEffect(() => {
-    // loadOwnPostsFromDatabase(setPosts, userId);
-  }, [userId]);
+    loadOwnPostsFromDatabase(setPosts, userId);
+  }, []);
 
   const handleLogOut = () => {
     dispatch(authSignOutUser());

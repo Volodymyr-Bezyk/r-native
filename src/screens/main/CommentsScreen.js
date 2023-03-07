@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import { CommentsItem } from "~/components/CommentsItem";
-import { examples, comments } from "~/constants/index";
+// import { examples, comments } from "~/constants/index";
 import { setCurrentPostId, removeCurrentPostId } from "~/redux/auth/authSlice";
 import { getOnePost, pushNewCommentToPost } from "~/firebase/services";
 
@@ -31,7 +31,8 @@ export default function CommentsScreen({ navigation, route }) {
   }, [route.params.id]);
 
   if (!postInfo) return;
-  const { photo } = postInfo;
+  const { photo, comments } = postInfo;
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -47,7 +48,7 @@ export default function CommentsScreen({ navigation, route }) {
                 length={comments.length}
               />
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.createdAt}
           />
         </SafeAreaView>
       </View>

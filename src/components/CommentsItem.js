@@ -1,28 +1,40 @@
+import { useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { dateFormatter } from "~/utils/dateFormatter";
+import { useSelector } from "react-redux";
+import { selectUserId } from "~/redux/auth/selectors";
 
 export const CommentsItem = ({
-  photo,
-  text,
+  avatar,
+  comment,
   createdAt,
+  owner,
   navigation,
   index,
   length,
 }) => {
+  const userId = useSelector(selectUserId);
+  console.log("owner", owner);
+  console.log("userId", userId);
+
   return (
     <View
       style={{
         ...styles.container,
         marginBottom: length - 1 !== index ? 32 : 0,
-        flexDirection: index % 2 === 0 ? "row" : "row-reverse",
+        flexDirection: owner !== userId ? "row" : "row-reverse",
       }}
     >
       <Image
-        source={{ uri: photo }}
+        source={{
+          uri: avatar
+            ? avatar
+            : "https://static.vecteezy.com/system/resources/previews/002/265/650/large_2x/unknown-person-user-icon-for-web-vector.jpg",
+        }}
         style={{
           ...styles.avatar,
-          marginRight: index % 2 === 0 ? 16 : 0,
-          marginLeft: index % 2 !== 0 ? 16 : 0,
+          marginRight: owner !== userId ? 16 : 0,
+          marginLeft: owner === userId ? 16 : 0,
         }}
       />
       <View
@@ -32,12 +44,13 @@ export const CommentsItem = ({
       >
         <Text style={styles.text}>
           {index}
-          {text}
+          {comment}
         </Text>
         <Text
           style={{
             ...styles.textDate,
-            textAlign: index % 2 === 0 ? "right" : "left",
+            textAlign: "left",
+            textAlign: owner !== userId ? "right" : "left",
           }}
         >
           {dateFormatter(createdAt)}

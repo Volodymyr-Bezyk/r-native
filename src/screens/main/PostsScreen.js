@@ -23,10 +23,8 @@ export default function PostsScreen({ navigation, route }) {
   const email = useSelector(selectUserEmail);
 
   useEffect(() => {
-    // loadPostsFromDatabase(setPosts);
-
-    return () => {};
-  }, [posts]);
+    loadPostsFromDatabase(setPosts);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
