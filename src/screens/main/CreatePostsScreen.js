@@ -1,12 +1,9 @@
-import { FontAwesome, Feather } from "@expo/vector-icons";
-import { Camera, CameraType } from "expo-camera";
 import { useState, useEffect } from "react";
-import * as Location from "expo-location";
-import { db, storage, storageRef } from "~/firebase/config";
-import { collection, doc, setDoc, addDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { uploadPhotoToFirebase } from "~/utils";
 import { useSelector } from "react-redux";
+import { FontAwesome, Feather } from "@expo/vector-icons";
+import { Camera } from "expo-camera";
+import * as Location from "expo-location";
+import { uploadPhotoToFirebase, addNewPost } from "~/firebase/services";
 import { selectUserId } from "~/redux/auth/selectors";
 
 import {
@@ -63,8 +60,7 @@ export default function CreatePostsScreen({ navigation }) {
 
   const sendPicture = async () => {
     const photo = await uploadPhotoToFirebase(photoUri);
-
-    const docRef = await addDoc(collection(db, "posts"), {
+    const newPost = {
       photo,
       name: placeName,
       location: adress,
@@ -73,19 +69,10 @@ export default function CreatePostsScreen({ navigation }) {
       coords: location,
       owner: userId,
       createdAt: new Date().toLocaleString(),
-    });
+    };
+    await addNewPost(newPost);
 
-    // console.log("Document written with ID: ", docRef.id);
-
-    navigation.navigate("Posts", {
-      photo: photoUri,
-      name: placeName,
-      location: adress,
-      id: Date.now(),
-      coords: location.coords,
-      createdAt: location.timestamp,
-      coords: location,
-    });
+    navigation.navigate("Posts", {});
     setPhotoUri("");
     setPlaceName("");
     setAdress("");

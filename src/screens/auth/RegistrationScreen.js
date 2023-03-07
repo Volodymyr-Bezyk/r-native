@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { authSignUpUser } from "~/redux/auth/authOperations";
 import { useDispatch } from "react-redux";
-
+import { authSignUpUser } from "~/redux/auth/authOperations";
 import {
   StyleSheet,
   Text,
@@ -46,15 +45,10 @@ export default function RegistrationScreen({ navigation }) {
   }, []);
 
   const handleRegister = (e) => {
-    // console.log({ name, email, password });
     dispatch(authSignUpUser({ name, email, password }));
     // setName("");
     // setEmail("");
     // setPassword("");
-    // navigation.navigate("Home", {
-    //   screen: "Registration",
-    //   credential: { email, password, name },
-    // });
   };
 
   const handleToLogin = (e) =>

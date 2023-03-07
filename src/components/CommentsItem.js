@@ -1,21 +1,4 @@
-import { FontAwesome, Feather } from "@expo/vector-icons";
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Image,
-  SafeAreaView,
-  FlatList,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { dateFormatter } from "~/utils/dateFormatter";
 
 export const CommentsItem = ({

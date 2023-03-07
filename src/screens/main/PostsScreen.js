@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   Image,
   View,
@@ -8,14 +9,21 @@ import {
   StyleSheet,
 } from "react-native";
 import PostItem from "~/components/PostItem";
-// import { examples } from "~/constants";
-import { loadPostsFromDatabase } from "~/utils/loadPostsFromDatabase";
+import { loadPostsFromDatabase } from "~/firebase/services";
+import {
+  selectUserAvatar,
+  selectUserLogin,
+  selectUserEmail,
+} from "~/redux/auth/selectors";
 
 export default function PostsScreen({ navigation, route }) {
   const [posts, setPosts] = useState([]);
+  const avatar = useSelector(selectUserAvatar);
+  const login = useSelector(selectUserLogin);
+  const email = useSelector(selectUserEmail);
 
   useEffect(() => {
-    loadPostsFromDatabase(setPosts);
+    // loadPostsFromDatabase(setPosts);
 
     return () => {};
   }, [posts]);
@@ -26,12 +34,15 @@ export default function PostsScreen({ navigation, route }) {
         <Image
           style={styles.avatar}
           source={{
-            uri: "https://www.kindpng.com/picc/m/137-1370686_anime-avatar-png-transparent-avatar-gaming-logo-png.png",
+            uri: avatar
+              ? avatar
+              : "https://www.arlis.umd.edu/sites/default/files/default_images/avatardefault_92824.png",
           }}
         />
+
         <View>
-          <Text style={styles.textName}>Natali Romanova</Text>
-          <Text style={styles.textMail}>email@example.com</Text>
+          <Text style={styles.textName}>{login}</Text>
+          <Text style={styles.textMail}>{email}</Text>
         </View>
       </View>
 
@@ -54,7 +65,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#FFFFFF",
   },
-  imageWrap: { flexDirection: "row", alignItems: "center" },
+  imageWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    minWidth: 60,
+    minHeight: 60,
+    borderRadius: 16,
+  },
   avatar: { width: 60, height: 60, borderRadius: 16, marginRight: 8 },
   textName: {
     fontFamily: "Roboto-Medium",

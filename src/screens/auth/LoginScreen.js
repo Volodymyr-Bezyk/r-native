@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { authSignInUser } from "~/redux/auth/authOperations";
 import {
   StyleSheet,
   Text,
@@ -14,7 +15,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import credentialFields from "~/constants";
-import { authSignInUser } from "~/redux/auth/authOperations";
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -40,14 +40,9 @@ export default function LoginScreen({ navigation }) {
   }, []);
 
   const handleSignIn = (e) => {
-    // console.log({ email, password });
     dispatch(authSignInUser({ email, password }));
     // setEmail("");
     // setPassword("");
-    // navigation.navigate("Home", {
-    //   screen: "Login",
-    //   credentials: { email, password },
-    // });
   };
 
   const handleToRegister = (e) =>

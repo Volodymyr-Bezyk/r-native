@@ -1,3 +1,4 @@
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import ScreenHeader from "~/components/ScreenHeader";
 import TabBar from "~/components/TabBar";
 import { BottomTab } from "~/utils";
@@ -8,7 +9,6 @@ import {
   CommentsScreen,
   MapScreen,
 } from "~/screens/main";
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation, route }) {
   const routeName = getFocusedRouteNameFromRoute(route);

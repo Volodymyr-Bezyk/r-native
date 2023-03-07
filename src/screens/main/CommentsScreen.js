@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   StyleSheet,
   View,
@@ -9,12 +10,11 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+
 import { CommentsItem } from "~/components/CommentsItem";
 import { examples, comments } from "~/constants/index";
-import { getOnePost } from "~/utils/getOnePost";
-import { pushNewCommentToPost } from "~/utils/pushNewCommentToPost";
 import { setCurrentPostId, removeCurrentPostId } from "~/redux/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { getOnePost, pushNewCommentToPost } from "~/firebase/services";
 
 export default function CommentsScreen({ navigation, route }) {
   const [postInfo, setPostInfo] = useState(null);

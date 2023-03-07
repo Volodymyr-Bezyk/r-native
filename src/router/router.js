@@ -3,12 +3,12 @@ import { AuthStack } from "~/utils";
 import { RegistrationScreen, LoginScreen } from "~/screens/auth";
 import HomeScreen from "~/screens/main/HomeScreen";
 
-const useRoute = (user) => {
+const useRoute = (authorized) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
         <AuthStack.Navigator initialRouteName="Login">
-          {!user ? (
+          {!authorized ? (
             <>
               <AuthStack.Screen
                 name="Login"

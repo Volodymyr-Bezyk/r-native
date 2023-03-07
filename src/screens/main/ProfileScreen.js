@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import * as ImagePicker from "expo-image-picker";
+import { Feather } from "@expo/vector-icons";
+
 import {
   StyleSheet,
   Text,
@@ -9,21 +14,54 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { examples } from "~/constants";
+import { authSignOutUser } from "~/redux/auth/authOperations";
+
 import PostItemProfile from "~/components/PostItemProfile";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { selectUserId } from "~/redux/auth/selectors";
-import { loadOwnPostsFromDatabase } from "~/utils/loadOwnPostsFromDatabase";
+import {
+  selectUserAvatar,
+  selectUserEmail,
+  selectUserId,
+  selectUserLogin,
+} from "~/redux/auth/selectors";
+import { loadOwnPostsFromDatabase } from "~/firebase/services";
+import { uploadPhotoToFirebase } from "~/firebase/services";
+import { authUpdateUser } from "~/redux/auth/authOperations";
 
 export default function ProfileScreen({ navigation }) {
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const userId = useSelector(selectUserId);
 
+  const avatar = useSelector(selectUserAvatar);
+  const login = useSelector(selectUserLogin);
+  const email = useSelector(selectUserEmail);
+
   useEffect(() => {
-    loadOwnPostsFromDatabase(setPosts, userId);
+    // loadOwnPostsFromDatabase(setPosts, userId);
   }, [userId]);
+
+  const handleLogOut = () => {
+    dispatch(authSignOutUser());
+  };
+
+  const handleAvatar = async (e) => {
+    if (avatar) {
+      dispatch(authUpdateUser({ photoURL: "" }));
+      console.log("upd photo");
+      return;
+    }
+
+    console.log("no upd photo");
+    await ImagePicker.getMediaLibraryPermissionsAsync(true);
+    const img = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    const imgLink = await uploadPhotoToFirebase(img.uri);
+    dispatch(authUpdateUser({ photoURL: imgLink }));
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -37,22 +75,46 @@ export default function ProfileScreen({ navigation }) {
             <Image
               style={styles.avatar}
               source={{
-                uri: "https://www.kindpng.com/picc/m/137-1370686_anime-avatar-png-transparent-avatar-gaming-logo-png.png",
+                uri: avatar
+                  ? avatar
+                  : "https://www.arlis.umd.edu/sites/default/files/default_images/avatardefault_92824.png",
               }}
             />
-            <TouchableOpacity style={styles.avatarBtn} activeOpacity={0.8}>
-              <Feather name="plus" size={16} color="#E8E8E8" />
+
+            <TouchableOpacity
+              onPress={handleAvatar}
+              style={{
+                ...styles.avatarBtn,
+                transform: avatar
+                  ? [
+                      { translateX: 13 },
+                      { translateY: -13 },
+                      { rotate: "45deg" },
+                    ]
+                  : [
+                      { translateX: 13 },
+                      { translateY: -13 },
+                      { rotate: "0deg" },
+                    ],
+              }}
+              activeOpacity={0.8}
+            >
+              <Feather
+                name="plus"
+                size={16}
+                color={avatar ? "#E8E8E8" : "#FF6C00"}
+              />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Login", {})}
+            onPress={handleLogOut}
             style={styles.logoutBtn}
             activeOpacity={0.8}
           >
             <Feather name="log-out" size={24} color="#BDBDBD" />
           </TouchableOpacity>
 
-          <Text style={styles.title}>Natali Romanova</Text>
+          <Text style={styles.title}>{login}</Text>
 
           <SafeAreaView style={styles.list}>
             <FlatList
@@ -116,7 +178,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    transform: [{ translateX: 13 }, { translateY: -13 }, { rotate: "45deg" }],
     justifyContent: "center",
     alignItems: "center",
     width: 25,

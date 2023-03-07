@@ -9,7 +9,6 @@ export default function ScreenHeader({ title, name, navigation, props }) {
 
   const handleLogOut = () => {
     dispatch(authSignOutUser());
-    // navigation.navigate("Login", {});
   };
 
   return (

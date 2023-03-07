@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Feather, AntDesign } from "@expo/vector-icons";
+
 import {
   View,
   TouchableOpacity,
@@ -6,14 +9,14 @@ import {
   Keyboard,
   TextInput,
 } from "react-native";
-import { Feather, AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+
 import {
   selectCurrentPostId,
   selectUserAvatar,
   selectUserId,
 } from "~/redux/auth/selectors";
-import { pushNewCommentToPost } from "~/utils/pushNewCommentToPost";
+
+import { pushNewCommentToPost } from "~/firebase/services";
 
 export default function tabBarButtons(routeName, navigation, other) {
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -46,6 +49,7 @@ export default function tabBarButtons(routeName, navigation, other) {
       createdAt: new Date().toLocaleString(),
     };
     await pushNewCommentToPost(currentPostId, commentItem);
+    setComment("");
     console.log("commentItem", commentItem);
   };
 
@@ -56,7 +60,6 @@ export default function tabBarButtons(routeName, navigation, other) {
           onPress={() =>
             navigation.navigate("Posts", {
               screen: "Posts",
-              params: { userId: "e2ee4" },
             })
           }
           style={styles.btnWrap}
@@ -69,7 +72,6 @@ export default function tabBarButtons(routeName, navigation, other) {
           onPress={() =>
             navigation.navigate("Create", {
               screen: "Create",
-              params: { userId: "e2ee4" },
             })
           }
           style={styles.centerBtnWrap}
@@ -82,7 +84,6 @@ export default function tabBarButtons(routeName, navigation, other) {
           onPress={() =>
             navigation.navigate("Profile", {
               screen: "Profile",
-              params: { userId: "e2ee4" },
             })
           }
           style={styles.btnWrap}
@@ -100,7 +101,6 @@ export default function tabBarButtons(routeName, navigation, other) {
           onPress={() =>
             navigation.navigate("Posts", {
               screen: "Posts",
-              params: { userId: "e2ee4" },
             })
           }
           style={styles.btnWrap}
@@ -112,7 +112,6 @@ export default function tabBarButtons(routeName, navigation, other) {
           onPress={() =>
             navigation.navigate("Profile", {
               screen: "Profile",
-              params: { userId: "e2ee4" },
             })
           }
           style={styles.centerBtnWrap}
@@ -126,7 +125,6 @@ export default function tabBarButtons(routeName, navigation, other) {
           onPress={() =>
             navigation.navigate("Create", {
               screen: "Create",
-              params: { userId: "e2ee4" },
             })
           }
         >

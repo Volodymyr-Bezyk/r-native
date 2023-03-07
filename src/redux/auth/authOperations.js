@@ -3,7 +3,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
-  signOut,
 } from "firebase/auth";
 import { auth } from "~/firebase/config";
 
@@ -14,12 +13,11 @@ export const authSignUpUser = createAsyncThunk(
       await createUserWithEmailAndPassword(auth, userEmail, password);
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: "https://example.com/jane-q-user/profile.jpg",
       });
       const { displayName, email, uid, photoURL } = await auth.currentUser;
 
       console.log("userRegister", auth.currentUser);
-      return { displayName, email, uid };
+      return { displayName, email, uid, photoURL, stateChange: true };
     } catch (error) {
       console.log(error.message);
       return thunkApi.rejectWithValue(error.code, error.message);
@@ -32,10 +30,10 @@ export const authSignInUser = createAsyncThunk(
   async ({ email: userEmail, password }, thunkApi) => {
     try {
       await signInWithEmailAndPassword(auth, userEmail, password);
-      const { displayName, email, uid } = await auth.currentUser;
+      const { displayName, email, uid, photoURL } = await auth.currentUser;
 
       console.log("userLogin", auth.currentUser);
-      return { displayName, email, uid };
+      return { displayName, email, uid, photoURL, stateChange: true };
     } catch (error) {
       console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
@@ -53,8 +51,30 @@ export const authSignOutUser = createAsyncThunk(
         uid: null,
         email: null,
         displayName: null,
+        photoURL: null,
         stateChange: false,
       };
+    } catch (error) {
+      console.log(error.message);
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const authUpdateUser = createAsyncThunk(
+  "user/update",
+  async (paramsToUpdate, thunkApi) => {
+    try {
+      console.log("paramsToUpdate", paramsToUpdate);
+
+      await updateProfile(auth.currentUser, {
+        ...paramsToUpdate,
+      });
+      console.log("auth.currentUser", auth.currentUser);
+
+      const { displayName, email, uid, photoURL } = await auth.currentUser;
+
+      return { displayName, email, uid, photoURL, stateChange: true };
     } catch (error) {
       console.log(error.message);
       return thunkApi.rejectWithValue(error.message);
