@@ -37,7 +37,7 @@ export const changeUserStateTracker = () => async (dispatch) => {
           displayName: null,
           email: null,
           uid: null,
-          photoURL: null,
+          photoURL: "",
           stateChange: false,
         })
       );

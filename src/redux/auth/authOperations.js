@@ -5,14 +5,21 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "~/firebase/config";
+import { uploadPhotoToFirebase } from "~/firebase/services";
 
 export const authSignUpUser = createAsyncThunk(
   "user/register",
-  async ({ email: userEmail, password, name }, thunkApi) => {
+  async ({ email: userEmail, password, name, image }, thunkApi) => {
     try {
+      let imgLink = "";
       await createUserWithEmailAndPassword(auth, userEmail, password);
+
+      if (image) {
+        imgLink = await uploadPhotoToFirebase(image);
+      }
       await updateProfile(auth.currentUser, {
         displayName: name,
+        photoURL: imgLink,
       });
       const { displayName, email, uid, photoURL } = await auth.currentUser;
 

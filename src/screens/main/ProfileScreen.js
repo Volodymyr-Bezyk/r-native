@@ -47,11 +47,9 @@ export default function ProfileScreen({ navigation }) {
   const handleAvatar = async (e) => {
     if (avatar) {
       dispatch(authUpdateUser({ photoURL: "" }));
-      console.log("upd photo");
       return;
     }
 
-    console.log("no upd photo");
     await ImagePicker.getMediaLibraryPermissionsAsync(true);
     const img = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -77,7 +75,7 @@ export default function ProfileScreen({ navigation }) {
               source={{
                 uri: avatar
                   ? avatar
-                  : "https://www.arlis.umd.edu/sites/default/files/default_images/avatardefault_92824.png",
+                  : "https://static.vecteezy.com/system/resources/previews/002/265/650/large_2x/unknown-person-user-icon-for-web-vector.jpg",
               }}
             />
 
@@ -96,6 +94,7 @@ export default function ProfileScreen({ navigation }) {
                       { translateY: -13 },
                       { rotate: "0deg" },
                     ],
+                borderColor: avatar ? "#E8E8E8" : "#FF6C00",
               }}
               activeOpacity={0.8}
             >
@@ -185,7 +184,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     // borderColor: "#FF6C00",
-    borderColor: "#E8E8E8",
     backgroundColor: "#FFFFFF",
   },
   logoutBtn: {

@@ -17,6 +17,8 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import credentialFields from "~/constants";
+import * as ImagePicker from "expo-image-picker";
+import { authUpdateUser } from "~/redux/auth/authOperations";
 
 export default function RegistrationScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -25,10 +27,9 @@ export default function RegistrationScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeField, setActiveField] = useState(null);
-
   const [passwordIsHidden, setPasswordIsHidden] = useState(true);
-
   const [keyboardIsVisible, setKeyboardIsVisible] = useState(false);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -44,11 +45,24 @@ export default function RegistrationScreen({ navigation }) {
     };
   }, []);
 
+  const handleAvatar = async (e) => {
+    if (image) {
+      setImage("");
+      return;
+    }
+
+    await ImagePicker.getMediaLibraryPermissionsAsync(true);
+    const img = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    setImage(img.uri);
+  };
+
   const handleRegister = (e) => {
-    dispatch(authSignUpUser({ name, email, password }));
-    // setName("");
-    // setEmail("");
-    // setPassword("");
+    dispatch(authSignUpUser({ name, image, email, password }));
   };
 
   const handleToLogin = (e) =>
@@ -74,11 +88,35 @@ export default function RegistrationScreen({ navigation }) {
               <Image
                 style={styles.avatar}
                 source={{
-                  uri: "https://www.kindpng.com/picc/m/137-1370686_anime-avatar-png-transparent-avatar-gaming-logo-png.png",
+                  uri: image
+                    ? image
+                    : "https://static.vecteezy.com/system/resources/previews/002/265/650/large_2x/unknown-person-user-icon-for-web-vector.jpg",
                 }}
               />
-              <TouchableOpacity style={styles.avatarBtn} activeOpacity={0.8}>
-                <Feather name="plus" size={16} color="#FF6C00" />
+              <TouchableOpacity
+                onPress={handleAvatar}
+                style={{
+                  ...styles.avatarBtn,
+                  transform: image
+                    ? [
+                        { translateX: 13 },
+                        { translateY: -13 },
+                        { rotate: "45deg" },
+                      ]
+                    : [
+                        { translateX: 13 },
+                        { translateY: -13 },
+                        { rotate: "0deg" },
+                      ],
+                  borderColor: image ? "#E8E8E8" : "#FF6C00",
+                }}
+                activeOpacity={0.8}
+              >
+                <Feather
+                  name="plus"
+                  size={16}
+                  color={image ? "#E8E8E8" : "#FF6C00"}
+                />
               </TouchableOpacity>
             </View>
 
@@ -308,7 +346,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height * 0.031,
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: "#FF6C00",
     backgroundColor: "#FFFFFF",
   },
 });

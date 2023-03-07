@@ -36,7 +36,7 @@ export default function PostsScreen({ navigation, route }) {
           source={{
             uri: avatar
               ? avatar
-              : "https://www.arlis.umd.edu/sites/default/files/default_images/avatardefault_92824.png",
+              : "https://static.vecteezy.com/system/resources/previews/002/265/650/large_2x/unknown-person-user-icon-for-web-vector.jpg",
           }}
         />
 
