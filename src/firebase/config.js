@@ -1,7 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// import "firebase/firestore";
-// import "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
 
@@ -15,12 +13,7 @@ const firebaseConfig = {
   measurementId: "G-3088GEYW1D",
 };
 
-// const analytics = getAnalytics(app);
-
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage();
-
-// export const db = firebase.firestore();
-// export const storage = firebase.storage();
