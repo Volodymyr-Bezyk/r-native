@@ -50,7 +50,6 @@ export default function tabBarButtons(routeName, navigation, other) {
     };
     await pushNewCommentToPost(currentPostId, commentItem);
     setComment("");
-    console.log("commentItem", commentItem);
   };
 
   if (mainRoute) {

@@ -10,8 +10,6 @@ export default function PostItem({
   coords,
   id,
 }) {
-  console.log("comments", comments);
-
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={{ uri: photo }}></Image>

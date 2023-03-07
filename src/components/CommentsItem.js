@@ -14,8 +14,6 @@ export const CommentsItem = ({
   length,
 }) => {
   const userId = useSelector(selectUserId);
-  console.log("owner", owner);
-  console.log("userId", userId);
 
   return (
     <View

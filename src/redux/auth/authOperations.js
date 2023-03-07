@@ -23,7 +23,6 @@ export const authSignUpUser = createAsyncThunk(
       });
       const { displayName, email, uid, photoURL } = await auth.currentUser;
 
-      console.log("userRegister", auth.currentUser);
       return { displayName, email, uid, photoURL, stateChange: true };
     } catch (error) {
       console.log(error.message);
@@ -39,7 +38,6 @@ export const authSignInUser = createAsyncThunk(
       await signInWithEmailAndPassword(auth, userEmail, password);
       const { displayName, email, uid, photoURL } = await auth.currentUser;
 
-      console.log("userLogin", auth.currentUser);
       return { displayName, email, uid, photoURL, stateChange: true };
     } catch (error) {
       console.log(error.message);
@@ -53,7 +51,6 @@ export const authSignOutUser = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       await auth.signOut();
-      console.log("LOGOUT");
       return {
         uid: null,
         email: null,
@@ -72,12 +69,9 @@ export const authUpdateUser = createAsyncThunk(
   "user/update",
   async (paramsToUpdate, thunkApi) => {
     try {
-      console.log("paramsToUpdate", paramsToUpdate);
-
       await updateProfile(auth.currentUser, {
         ...paramsToUpdate,
       });
-      console.log("auth.currentUser", auth.currentUser);
 
       const { displayName, email, uid, photoURL } = await auth.currentUser;
 
